@@ -1,3 +1,10 @@
+const Knex = require("knex")
+
+/**
+ * Create new SQL Transactiom Client
+ * @class
+ * @returns {*} DB Client 
+ */
 class SqlTransaction {
     constructor(db, trx = null) {
         this.db = db
@@ -5,7 +12,10 @@ class SqlTransaction {
         this.trxFlag = false
     }
 
-    // SqlTransaction Start Method
+    /**
+     * Starts sql transaction
+     * @returns {Promise}
+     */
     async start() {
         if ((!this.trxFlag && !this.trx)) {
             // Initilizing SqlTransaction Provider
@@ -15,16 +25,26 @@ class SqlTransaction {
         }
     }
 
-    // DB Query Method
-    knex(tableName) {
+    /**
+     * Knex query builder
+     * @param {*} [table=] table name
+     * @returns {Knex} Knex query builder
+     */
+    knex(table = null) {
+        const dbObject = table ? this.db(table) : this.db
+
         if (this.trx) {
-            return this.db(tableName).transacting(this.trx)
+            return dbObject.transacting(this.trx)
         }
 
-        return this.db(tableName)
+        return dbObject
     }
 
-    // DB Query Raw Method
+    /**
+     * Execute raw query
+     * @param {string} sql SQL query
+     * @param {Array} params Query bindings
+     */
     query(sql, params) {
         if (this.trx) {
             return this.db.raw(sql, params).transacting(this.trx)
@@ -33,16 +53,9 @@ class SqlTransaction {
         return this.db.raw(sql, params)
     }
 
-    // Batch Insert
-    batchInsert(tableName, data) {
-        if (this.trx) {
-            return this.db.batchInsert(tableName, data).transacting(this.trx)
-        }
-
-        return this.db.batchInsert(tableName, data)
-    }
-
-    // Commit SqlTransaction
+    /**
+    * Commits sql transaction
+    */
     commit() {
         if (this.trxFlag) {
             this.trx.commit()
@@ -50,7 +63,9 @@ class SqlTransaction {
         }
     }
 
-    // Rollback SqlTransaction
+    /**
+    * Rollback sql transaction
+    */
     rollback() {
         if (this.trxFlag) {
             this.trx.rollback()
@@ -59,8 +74,15 @@ class SqlTransaction {
     }
 }
 
+/**
+ * Get sql transaction client
+ * @param {Knex} db DB Client
+ * @param {SqlTransaction.trx} [trx=] SQL Transaction
+ * @returns {SqlTransaction} SQL transaction client
+ */
 async function getSqlTransaction(db, trx) {
     return new SqlTransaction(db, trx)
 }
 
+// Exporting
 module.exports = getSqlTransaction
