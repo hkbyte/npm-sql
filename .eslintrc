@@ -1,0 +1,12 @@
+{
+  "env": {
+    "jest": true
+  },
+  "root": true,
+  "extends": "@react-native-community",
+  "rules": {
+    "quotes": ["error", "double"],
+    "eqeqeq": "error",
+    "radix": ["error", "as-needed"]
+  }
+}
