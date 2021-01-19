@@ -1,6 +1,6 @@
 {
   "name": "@hkbyte/sql",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "HK Byte SQL library",
   "main": "lib/index",
   "types": "lib/index.d.ts",
