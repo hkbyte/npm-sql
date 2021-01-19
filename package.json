@@ -1,7 +1,7 @@
 {
   "name": "@hkbyte/sql",
-  "version": "1.2.1",
-  "description": "HK Byte SQL library and utilities for PostgreSQL and MySQL",
+  "version": "1.2.2",
+  "description": "HK Byte SQL library",
   "main": "lib/index",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -11,7 +11,8 @@
     "build": "npm run clean && tsc"
   },
   "files": [
-    "./lib"
+    "package.json",
+    "lib/"
   ],
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
     "hk-sql",
     "sql",
     "postgres",
-    "mysql",
+    "postgresql",
     "pg"
   ],
   "author": "Harshit Kunal LLP",
@@ -33,7 +34,7 @@
   },
   "homepage": "https://github.com/hkbyte/npm-sql#readme",
   "dependencies": {
-    "knex": "^0.21.6",
+    "knex": "^0.21.15",
     "pg": "^8.4.0"
   },
   "publishConfig": {
