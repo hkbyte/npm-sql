@@ -75,11 +75,11 @@ export default class SqlTransaction {
 		return knexObject
 	}
 
-	async withTransaction(serviceFunction: Function) {
+	async withTransaction<T>(serviceFunction: T) {
 		try {
 			await this.start()
 			//@ts-ignore
-			const result = await serviceFunction()
+			const result = (await serviceFunction()) as ReturnType<T>
 			this.commit()
 			return result
 		} catch (err) {
